@@ -3,13 +3,23 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon --inspect --env-file=.env src/server.js",
+    "lint": "npx eslint ./src || exit 0",
+    "lint:fix": "npx eslint ./src --fix || exit 0"  },
   "author": "Casper Björlin",
   "license": "ISC",
   "dependencies": {
-    "l2-module-cart-and-discounts": "^1.0.3"
+    "l2-module-cart-and-discounts": "^1.0.3",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-ejs-layouts": "^2.5.1",
+    "helmet": "^8.0.0"
+  },
+   "devDependencies": {
+    "@lnu/eslint-config": "^1.1.10"
   }
 }
