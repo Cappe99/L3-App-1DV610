@@ -6,11 +6,15 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { router } from './routes/router.js'
 import dotenv from 'dotenv'
+import cookieParser from 'cookie-parser'
+import { flashMiddleware } from './middleware/flash.js'
 
 try {
   dotenv.config({ path: './.env' })
 
   const app = express()
+
+  app.use(cookieParser())
 
   const directoryFullName = dirname(fileURLToPath(import.meta.url))
 
@@ -42,6 +46,16 @@ try {
   if (process.env.NODE_ENV === 'dev') {
     app.set('trust proxy', 1) // trust first proxy
   }
+
+  app.use(flashMiddleware)
+
+  app.use((req, res, next) => {
+    if (req.cookies.flash) {
+      res.locals.flash = req.cookies.flash
+      res.clearCookie('flash')
+    }
+    next()
+  })
 
   // Register routes.
   app.use(baseURL, router)

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>1DV026</title>
+  <title>1DV610</title>
   
  <link rel="stylesheet" href="/css/style.css">
   <%- defineContent('style') %>
@@ -13,8 +13,12 @@
 
 <body>
   <%- include('../partials/header') %>
+    <% if (flash) { %>
+    <div class="flash">
+      <%= flash %>
+    </div>
+  <% } %>
   <main role="main" class="container">
-
     <%- body %>
   </main>
 

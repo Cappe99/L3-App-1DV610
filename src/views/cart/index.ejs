@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <title>Kundvagn</title>
+</head>
+<body>
+  <h1>Din kundvagn</h1>
+
+  <% if (items.length === 0) { %>
+    <p>Kundvagnen är tom.</p>
+  <% } else { %>
+    <ul>
+      <% items.forEach(item => { %>
+        <li><%= item.name %> — <%= item.price %> kr</li>
+      <% }) %>
+    </ul>
+
+    <p><strong>Totalt:</strong> <%= total %> kr</p>
+    <p><strong>Frakt:</strong> <%= shipping %> kr</p>
+    <p><strong>Att betala:</strong> <%= final %> kr</p>
+    <p><strong>Antal:</strong> <%= quantity %></p>
+
+    <form method="post" action="/cart/clear">
+      <button type="submit">Töm kundvagn</button>
+    </form>
+  <% } %>
+
+  <a href="/products">⬅️ Fortsätt handla</a>
+</body>
+</html>
