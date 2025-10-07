@@ -181,3 +181,123 @@ header {
 #clear-cart:hover {
   background-color: #700505;
 }
+
+.cart-page {
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8f9fa;
+  color: #333;
+  margin: 0;
+  padding: 2rem 0;
+}
+
+.cart-title {
+  text-align: center;
+  color: #222;
+  margin-bottom: 2rem;
+}
+
+.cart-table {
+  width: 80%;
+  margin: 0 auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.cart-table td {
+  padding: 1rem;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-row:hover {
+  background-color: #f3f4f6;
+}
+
+.cart-btn {
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cart-btn-remove {
+  background-color: #f87171;
+  color: white;
+}
+
+.cart-btn-remove:hover {
+  background-color: #dc2626;
+}
+
+.cart-btn-clear {
+  background-color: #dc3545;
+  color: white;
+}
+
+.cart-btn-clear:hover {
+  background-color: #b02a37;
+}
+
+.cart-btn-discount {
+  background-color: #007bff;
+  color: white;
+}
+
+.cart-btn-discount:hover {
+  background-color: #0056b3;
+}
+
+.cart-discount-form {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.cart-discount-input {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+.cart-summary {
+  width: 80%;
+  margin: 2rem auto;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 1rem;
+  text-align: center;
+}
+
+.cart-summary p {
+  margin: 0.4rem 0;
+}
+
+.cart-error {
+  text-align: center;
+  color: red;
+}
+
+.cart-success {
+  text-align: center;
+  color: green;
+}
+
+.cart-link {
+  display: block;
+  text-align: center;
+  color: #007bff;
+  text-decoration: none;
+  margin-top: 2rem;
+}
+
+.cart-link:hover {
+  text-decoration: underline;
+}

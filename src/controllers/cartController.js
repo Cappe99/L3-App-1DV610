@@ -5,6 +5,8 @@ const cart = new Cart()
 cart.discountManager.setFreeShippingThreshold(1000)
 cart.discountManager.shippingCost = 49
 
+cart.discountManager.buyXPayForY(3, 2)
+
 /**
  *
  */

@@ -3,57 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <title>Kundvagn</title>
+  <link rel="stylesheet" href="/css/cart.css">
 </head>
 <body>
  <h1>Din kundvagn</h1>
 
-  <% if (items.length === 0) { %>
-    <p>Kundvagnen är tom.</p>
+   <% if (items.length === 0) { %>
+    <p class="cart-empty">Kundvagnen är tom.</p>
   <% } else { %>
-    <table>
-
+    <table class="cart-table">
       <tbody>
         <% items.forEach(item => { %>
-          <tr>
-            <td><%= item.name %></td>
-            <td><%= item.price %> kr</td>
-            <td><%= item.quantity %> st</td>
-            <td>
-              <form method="post" action="/cart/add" style="display:inline;">
+          <tr class="cart-row">
+            <td class="cart-name"><%= item.name %></td>
+            <td class="cart-price"><%= item.price %> kr</td>
+            <td class="cart-qty"><%= item.quantity %> st</td>
+            <td class="cart-actions">
+              <form method="post" action="/cart/remove" class="cart-remove-form">
                 <input type="hidden" name="productId" value="<%= item.id %>">
-              <button type="submit">+</button>
+                <button type="submit" class="cart-btn cart-btn-remove">−</button>
               </form>
-            <form method="post" action="/cart/remove" style="display:inline;">
-          <input type="hidden" name="productId" value="<%= item.id %>">
-              <button type="submit">−</button>
-            </form>
-        </td>
+            </td>
           </tr>
         <% }) %>
-        </tbody>
-      </table>
+      </tbody>
+    </table>
 
-    <p><strong>Totalt pris:</strong> <%= total %> kr</p>
-    <p><strong>Frakt:</strong> <%= shipping %> kr</p>
-    <p><strong>Summa att betala:</strong> <%= final %> kr</p>
-    <p><strong>Antal varor:</strong> <%= quantity %></p>
+    <div class="cart-summary">
+      <p><strong>Totalt pris:</strong> <%= total %> kr</p>
+      <p><strong>Frakt:</strong> <%= shipping %> kr</p>
+      <p><strong>Summa att betala:</strong> <%= final %> kr</p>
+      <p><strong>Antal varor:</strong> <%= quantity %></p>
 
-    <form method="post" action="/cart/clear">
-      <button type="submit" id="clear-cart">Töm kundvagn</button>
-    </form>
+      <form method="post" action="/cart/clear" class="cart-clear-form">
+        <button type="submit" id="clear-cart" class="cart-btn cart-btn-clear">Töm kundvagn</button>
+      </form>
+    </div>
   <% } %>
 
-<% if (!discountSuccess) { %>
-  <form method="post" action="/cart/discount">
-    <input type="text" name="code" placeholder="Ange rabattkod">
-    <button type="submit">Använd kod</button>
-    <% if (discountCode) { %>
-      <p style="color:red;">Ogiltig kod: <%= discountCode %></p>
-    <% } %>
-  </form>
-<% } else { %>
-  <p style="color:green;">Rabattkod "<%= discountCode %>" aktiverad!</p>
-<% } %>
-  <a href="/products">Fortsätt handla</a>
+  <% if (!discountSuccess) { %>
+    <form method="post" action="/cart/discount" class="cart-discount-form">
+      <input type="text" name="code" placeholder="Ange rabattkod" class="cart-discount-input">
+      <button type="submit" class="cart-btn cart-btn-discount">Använd kod</button>
+      <% if (discountCode) { %>
+        <p class="cart-error">Ogiltig kod: <%= discountCode %></p>
+      <% } %>
+    </form>
+  <% } else { %>
+    <p class="cart-success">Rabattkod "<%= discountCode %>" aktiverad!</p>
+  <% } %>
+
+  <a href="/products" class="cart-link">Fortsätt handla</a>
 </body>
 </html>
