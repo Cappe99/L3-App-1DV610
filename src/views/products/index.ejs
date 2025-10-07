@@ -8,21 +8,20 @@
 <body>
   <h1>Våra produkter</h1>
 
-  <ul>
-    <% products.forEach(p => { %>
-      <li style="margin-bottom: 2rem;">
-        <img src="<%= p.image %>" alt="<%= p.name %>" width="120">
+<ul class="product-grid">
+  <% products.forEach(p => { %>
+    <li class="product-card">
+      <a href="/products/<%= p.id %>">
+        <img src="<%= p.image %>" alt="<%= p.name %>">
         <h2><%= p.name %></h2>
-        <p><%= p.price %> kr</p>
-
-        <form method="post" action="/cart/add">
-          <input type="hidden" name="productId" value="<%= p.id %>">
-          <button type="submit">Lägg till i kundvagn</button>
-        </form>
-      </li>
-    <% }) %>
-  </ul>
-
-  <a href="<%= baseURL %>cart">Gå till kundvagn</a>
+      </a>
+      <p><%= p.price %> kr</p>
+      <form method="post" action="/cart/add">
+        <input type="hidden" name="productId" value="<%= p.id %>">
+        <button type="submit">Lägg till i kundvagn</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
 </body>
 </html>
