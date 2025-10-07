@@ -5,21 +5,38 @@
   <title>Kundvagn</title>
 </head>
 <body>
-  <h1>Din kundvagn</h1>
+ <h1>Din kundvagn</h1>
 
   <% if (items.length === 0) { %>
     <p>Kundvagnen är tom.</p>
   <% } else { %>
-    <ul>
-      <% items.forEach(item => { %>
-        <li><%= item.name %> — <%= item.price %> kr</li>
-      <% }) %>
-    </ul>
+    <table>
 
-    <p><strong>Totalt:</strong> <%= total %> kr</p>
+      <tbody>
+        <% items.forEach(item => { %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.price %> kr</td>
+            <td><%= item.quantity %> st</td>
+            <td>
+              <form method="post" action="/cart/add" style="display:inline;">
+                <input type="hidden" name="productId" value="<%= item.id %>">
+              <button type="submit">+</button>
+              </form>
+            <form method="post" action="/cart/remove" style="display:inline;">
+          <input type="hidden" name="productId" value="<%= item.id %>">
+              <button type="submit">−</button>
+            </form>
+        </td>
+          </tr>
+        <% }) %>
+        </tbody>
+      </table>
+
+    <p><strong>Totalt pris:</strong> <%= total %> kr</p>
     <p><strong>Frakt:</strong> <%= shipping %> kr</p>
-    <p><strong>Att betala:</strong> <%= final %> kr</p>
-    <p><strong>Antal:</strong> <%= quantity %></p>
+    <p><strong>Summa att betala:</strong> <%= final %> kr</p>
+    <p><strong>Antal varor:</strong> <%= quantity %></p>
 
     <form method="post" action="/cart/clear">
       <button type="submit">Töm kundvagn</button>

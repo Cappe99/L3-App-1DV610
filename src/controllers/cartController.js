@@ -52,4 +52,24 @@ export class CartController {
     cart.clearCart()
     res.redirect('/cart')
   }
+
+  /**
+   *
+   * @param req
+   * @param res
+   * @param next
+   */
+  remove (req, res, next) {
+    const id = Number(req.body.productId)
+    const product = products.find(p => p.id === id)
+
+    if (!product) {
+      return res.status(404).send('Produkt hittades inte')
+    }
+
+    // Tar bort EN produkt i taget (inte hela raden)
+    cart.removeProductFromCart(product, 1)
+
+    res.redirect('/cart')
+  }
 }
