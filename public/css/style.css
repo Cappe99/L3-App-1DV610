@@ -166,3 +166,18 @@ header {
 #buy-button:hover {
   background-color: #0056b3;
 }
+
+#clear-cart {
+   margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #f50505;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+#clear-cart:hover {
+  background-color: #700505;
+}

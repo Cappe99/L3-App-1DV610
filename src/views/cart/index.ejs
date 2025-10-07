@@ -39,10 +39,21 @@
     <p><strong>Antal varor:</strong> <%= quantity %></p>
 
     <form method="post" action="/cart/clear">
-      <button type="submit">Töm kundvagn</button>
+      <button type="submit" id="clear-cart">Töm kundvagn</button>
     </form>
   <% } %>
 
+<% if (!discountSuccess) { %>
+  <form method="post" action="/cart/discount">
+    <input type="text" name="code" placeholder="Ange rabattkod">
+    <button type="submit">Använd kod</button>
+    <% if (discountCode) { %>
+      <p style="color:red;">Ogiltig kod: <%= discountCode %></p>
+    <% } %>
+  </form>
+<% } else { %>
+  <p style="color:green;">Rabattkod "<%= discountCode %>" aktiverad!</p>
+<% } %>
   <a href="/products">Fortsätt handla</a>
 </body>
 </html>
