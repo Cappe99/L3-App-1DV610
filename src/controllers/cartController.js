@@ -1,29 +1,23 @@
-import { Cart } from 'l2-module-cart-and-discounts'
-import { products } from '../data/products.js'
-
-const cart = new Cart()
-cart.discountManager.setFreeShippingThreshold(1000)
-cart.discountManager.shippingCost = 49
-
-cart.discountManager.buyXPayForY(3, 2)
-
 /**
  *
  */
 export class CartController {
   /**
    *
+   * @param cartService
+   */
+  constructor (cartService) {
+    this.cartService = cartService
+  }
+
+  /**
+   *
    * @param req
    * @param res
-   * @param next
    */
-  show (req, res, next) {
+  showItemsInCart (req, res) {
     res.render('cart/index', {
-      items: cart.items,
-      total: cart.getTotalPriceafterDiscounts(),
-      shipping: cart.getShippingCost(),
-      final: cart.getFinalPrice(),
-      quantity: cart.getTotalQuantityInCart(),
+      ...this.cartService.getSummary(),
       discountSuccess: false,
       discountCode: null
     })
@@ -33,48 +27,24 @@ export class CartController {
    *
    * @param req
    * @param res
-   * @param next
    */
-  add (req, res, next) {
-    const id = Number(req.body.productId)
-    const product = products.find(p => p.id === id)
-
-    if (!product) {
-      return res.status(404).send('Produkt hittades inte')
+  addItemToCart (req, res) {
+    try {
+      this.cartService.addProduct(Number(req.body.productId))
+      res.cookie('flash', 'Produkten sparades!')
+      res.redirect('/products')
+    } catch (err) {
+      res.status(404).send(err.message)
     }
-    cart.addProductToCart(product)
-
-    res.cookie('flash', 'Produkten sparades!')
-    res.redirect('/products')
   }
 
   /**
    *
    * @param req
    * @param res
-   * @param next
    */
-  clear (req, res, next) {
-    cart.clearCart()
-    res.redirect('/cart')
-  }
-
-  /**
-   *
-   * @param req
-   * @param res
-   * @param next
-   */
-  remove (req, res, next) {
-    const id = Number(req.body.productId)
-    const product = products.find(p => p.id === id)
-
-    if (!product) {
-      return res.status(404).send('Produkt hittades inte')
-    }
-
-    cart.removeProductFromCart(product, 1)
-
+  removeItemsInCart (req, res) {
+    this.cartService.clearCart()
     res.redirect('/cart')
   }
 
@@ -83,18 +53,26 @@ export class CartController {
    * @param req
    * @param res
    */
-  applyDiscount (req, res) {
-    const code = req.body.code
-    const success = cart.discountManager.applyDiscountCode(code)
+  removeOneItemFromCart (req, res) {
+    try {
+      this.cartService.removeProduct(Number(req.body.productId))
+      res.redirect('/cart')
+    } catch (err) {
+      res.status(404).send(err.message)
+    }
+  }
 
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  applyDiscountCode (req, res) {
+    const success = this.cartService.applyDiscount(req.body.code)
     res.render('cart/index', {
-      items: cart.items,
-      total: cart.getTotalPriceafterDiscounts(),
-      shipping: cart.getShippingCost(),
-      final: cart.getFinalPrice(),
-      quantity: cart.getTotalQuantityInCart(),
+      ...this.cartService.getSummary(),
       discountSuccess: success,
-      discountCode: code
+      discountCode: req.body.code
     })
   }
 }
