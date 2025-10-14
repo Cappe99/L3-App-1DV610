@@ -22,6 +22,7 @@ export class WalletController {
       res.render('wallet/index', {
         title: 'Din plånbok',
         wallet: data,
+        transactions: data.transactions,
         success: null,
         error: null
       })
@@ -36,15 +37,25 @@ export class WalletController {
    * @param res
    * @param next
    */
-  topUp (req, res) {
+  addFundsToWallet (req, res) {
     try {
       const amount = parseInt(req.body.amount, 10)
       this.walletService.topUp(amount)
       const data = this.walletService.getWalletData()
-      res.render('wallet/index', { wallet: data, success: `Du har lagt till ${amount} kr!`, error: null })
+      res.render('wallet/index', {
+        wallet: data,
+        transactions: data.transactions,
+        success: `Du har lagt till ${amount} kr!`,
+        error: null
+      })
     } catch (err) {
       const data = this.walletService.getWalletData()
-      res.render('wallet/index', { wallet: data, success: null, error: err.message })
+      res.render('wallet/index', {
+        balance: data.balance,
+        transactions: data.transactions,
+        success: null,
+        error: err.message
+      })
     }
   }
 }

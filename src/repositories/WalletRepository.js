@@ -2,26 +2,28 @@
  *
  */
 export class WalletRepository {
+  #balance
+  #transactions
   /**
    *
    */
   constructor () {
-    this.balance = 0
-    this.transactions = []
+    this.#balance = 0
+    this.#transactions = []
   }
 
   /**
    *
    */
   getBalance () {
-    return this.balance
+    return this.#balance
   }
 
   /**
    *
    */
   getTransactions () {
-    return this.transactions
+    return this.#transactions
   }
 
   /**
@@ -29,7 +31,7 @@ export class WalletRepository {
    * @param newBalance
    */
   updateBalance (newBalance) {
-    this.balance = newBalance
+    this.#balance = newBalance
   }
 
   /**
@@ -37,6 +39,6 @@ export class WalletRepository {
    * @param transaction
    */
   addTransaction (transaction) {
-    this.transactions.unshift(transaction)
+    this.#transactions.unshift(transaction)
   }
 }

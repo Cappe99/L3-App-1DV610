@@ -19,9 +19,17 @@
 <% if (wallet.transactions.length === 0) { %>
   <p>Inga transaktioner ännu.</p>
 <% } else { %>
-  <ul>
-    <% wallet.transactions.forEach(t => { %>
-      <li>Påfyllt <%= t.amount %> kr</li>
-    <% }) %>
-  </ul>
+<ul>
+  <% transactions.forEach(t => { %>
+    <li>
+      <% if (t.type === 'topup') { %>
+        Påfyllt <%= t.amount %> kr
+      <% } else if (t.type === 'purchase') { %>
+        Köp på <%= t.amount %> kr
+      <% } else { %>
+        <%= t.type %>: <%= t.amount %> kr
+      <% } %>
+    </li>
+  <% }) %>
+</ul>
 <% } %>

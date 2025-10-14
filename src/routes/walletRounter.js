@@ -6,4 +6,4 @@ export const router = express.Router()
 const controller = new WalletController(walletService)
 
 router.get('/', (req, res) => controller.showWallet(req, res))
-router.post('/topup', (req, res) => controller.topUp(req, res))
+router.post('/topup', (req, res) => controller.addFundsToWallet(req, res))

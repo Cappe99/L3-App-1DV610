@@ -17,7 +17,7 @@ export class CartController {
    */
   showItemsInCart (req, res) {
     res.render('cart/index', {
-      ...this.cartService.getSummary(),
+      ...this.cartService.getSummaryOfCart(),
       discountSuccess: false,
       discountCode: null,
       success: null,
@@ -73,7 +73,7 @@ export class CartController {
   applyDiscountCode (req, res) {
     const success = this.cartService.applyDiscount(req.body.code)
     res.render('cart/index', {
-      ...this.cartService.getSummary(),
+      ...this.cartService.getSummaryOfCart(),
       discountSuccess: success,
       discountCode: req.body.code
     })
@@ -99,7 +99,7 @@ export class CartController {
     } catch (err) {
       console.log('Fel vid checkout:', err.message)
       res.render('cart/index', {
-        ...this.cartService.getSummary(),
+        ...this.cartService.getSummaryOfCart(),
         discountSuccess: false,
         discountCode: null,
         success: null,

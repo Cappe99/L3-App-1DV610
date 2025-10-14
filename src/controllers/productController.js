@@ -10,7 +10,7 @@ export class ProductController {
    * @param res
    * @param next
    */
-  list (req, res, next) {
+  listAllProducts (req, res, next) {
     res.render('products/index', { products })
   }
 
@@ -20,7 +20,7 @@ export class ProductController {
    * @param res
    * @param next
    */
-  showProducts (req, res, next) {
+  showClickedProdukt (req, res, next) {
     const id = Number(req.params.id)
     const product = products.find(p => p.id === id)
     if (!product) {
