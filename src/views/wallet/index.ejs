@@ -1,0 +1,27 @@
+
+<% if (typeof success !== 'undefined' && success) { %>
+  <div class="wallet-success"><%= success %></div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="wallet-error"><%= error %></div>
+<% } %>
+
+<p><strong>Saldo:</strong> <%= wallet.balance %> kr</p>
+
+<h2>Ladda på pengar</h2>
+<form method="post" action="/wallet/topup">
+  <input type="number" name="amount" placeholder="Belopp i kr" required>
+  <button type="submit">Ladda på</button>
+</form>
+
+<h2>Transaktioner</h2>
+<% if (wallet.transactions.length === 0) { %>
+  <p>Inga transaktioner ännu.</p>
+<% } else { %>
+  <ul>
+    <% wallet.transactions.forEach(t => { %>
+      <li>Påfyllt <%= t.amount %> kr</li>
+    <% }) %>
+  </ul>
+<% } %>

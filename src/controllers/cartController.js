@@ -19,7 +19,10 @@ export class CartController {
     res.render('cart/index', {
       ...this.cartService.getSummary(),
       discountSuccess: false,
-      discountCode: null
+      discountCode: null,
+      success: null,
+      error: null
+
     })
   }
 
@@ -74,5 +77,34 @@ export class CartController {
       discountSuccess: success,
       discountCode: req.body.code
     })
+  }
+
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  checkout (req, res) {
+    console.log('Kund trycker på checkout!')
+
+    try {
+      const summary = this.cartService.checkout()
+      res.render('cart/index', {
+        ...summary,
+        discountSuccess: false,
+        discountCode: null,
+        success: 'Tack för ditt köp! ',
+        error: null
+      })
+    } catch (err) {
+      console.log('Fel vid checkout:', err.message)
+      res.render('cart/index', {
+        ...this.cartService.getSummary(),
+        discountSuccess: false,
+        discountCode: null,
+        success: null,
+        error: err.message
+      })
+    }
   }
 }

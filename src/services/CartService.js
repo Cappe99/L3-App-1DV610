@@ -8,11 +8,13 @@ export class CartService {
    *
    * @param discountManager
    * @param productRepository
+   * @param walletService
    */
-  constructor (discountManager, productRepository) {
+  constructor (discountManager, productRepository, walletService = null) {
     this.cart = new Cart()
     this.discountManager = this.cart.discountManager
     this.productRepository = productRepository
+    this.walletService = walletService
 
     this.discountManager.setFreeShippingThreshold(1000)
     this.discountManager.shippingCost = 49
@@ -69,5 +71,28 @@ export class CartService {
    */
   applyDiscount (code) {
     return this.discountManager.applyDiscountCode(code)
+  }
+
+  /**
+   *
+   */
+  checkout () {
+    let finalAmount = Number(this.cart.getFinalPrice())
+    if (isNaN(finalAmount)) finalAmount = 0
+
+    if (this.walletService) {
+      const walletBalance = this.walletService.getWalletData().balance
+      console.log('Saldo i plånboken:', walletBalance)
+      console.log('Totalbelopp i kundvagnen:', finalAmount)
+      console.log('Typ walletBalance:', typeof walletBalance)
+      console.log('Typ finalAmount:', typeof finalAmount)
+      if (walletBalance < finalAmount) {
+        throw new Error('Inte tillräckligt med pengar i plånboken')
+      }
+      this.walletService.deduct(finalAmount)
+    }
+
+    this.clearCart()
+    return this.getSummary()
   }
 }

@@ -8,7 +8,15 @@
 <body>
  <h1>Din kundvagn</h1>
 
-   <% if (items.length === 0) { %>
+ <% if (success) { %>
+   <div class="cart-success"><%= success %></div>
+ <% } %>
+
+ <% if (error) { %>
+   <div class="cart-error"><%= error %></div>
+ <% } %>
+
+ <% if (items.length === 0) { %>
     <p class="cart-empty">Kundvagnen är tom.</p>
   <% } else { %>
     <table class="cart-table">
@@ -37,6 +45,10 @@
 
       <form method="post" action="/cart/clear" class="cart-clear-form">
         <button type="submit" id="clear-cart" class="cart-btn cart-btn-clear">Töm kundvagn</button>
+      </form>
+
+      <form method="post" action="/cart/checkout" class="cart-checkout-form">
+        <button type="submit" class="cart-btn cart-btn-checkout">Betala</button>
       </form>
     </div>
   <% } %>
