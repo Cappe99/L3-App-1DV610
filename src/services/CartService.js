@@ -43,11 +43,7 @@ export class CartService {
    * @param productId
    */
   addProduct (productId) {
-    const product = this.#productRepository.findById(productId)
-    if (!product) {
-      throw new Error('Product fail to find')
-    }
-    this.#cart.addProductToCart(product)
+    this.#cart.addProductToCart(this.#findProduct(productId))
   }
 
   /**
@@ -55,11 +51,7 @@ export class CartService {
    * @param productId
    */
   removeProduct (productId) {
-    const product = this.#productRepository.findById(productId)
-    if (!product) {
-      throw new Error('Product fail to find')
-    }
-    this.#cart.removeProductFromCart(product, 1)
+    this.#cart.removeProductFromCart(this.#findProduct(productId), 1)
   }
 
   /**
@@ -81,18 +73,27 @@ export class CartService {
    *
    */
   checkout () {
-    let finalAmount = Number(this.#cart.getFinalPrice())
-    if (isNaN(finalAmount)) finalAmount = 0
+    const finalAmount = Number(this.#cart.getFinalPrice()) || 0
+
+    if (this.#walletService && this.#walletService.getWalletData().balance < finalAmount) {
+      throw new Error('Inte tillräckligt med pengar i plånboken')
+    }
 
     if (this.#walletService) {
-      const walletBalance = this.#walletService.getWalletData().balance
-      if (walletBalance < finalAmount) {
-        throw new Error('Inte tillräckligt med pengar i plånboken')
-      }
       this.#walletService.deduct(finalAmount)
     }
 
     this.#cart.clearCart()
     return this.getSummaryOfCart()
+  }
+
+  /**
+   *
+   * @param productId
+   */
+  #findProduct (productId) {
+    const product = this.#productRepository.findById(productId)
+    if (!product) throw new Error('Produkt hittades inte')
+    return product
   }
 }

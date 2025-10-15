@@ -16,13 +16,11 @@ export class CartController {
    * @param res
    */
   showItemsInCart (req, res) {
-    res.render('cart/index', {
-      ...this.cartService.getSummaryOfCart(),
+    this.renderCart(res, {
       discountSuccess: false,
       discountCode: null,
       success: null,
       error: null
-
     })
   }
 
@@ -32,13 +30,12 @@ export class CartController {
    * @param res
    */
   addItemToCart (req, res) {
-    try {
-      this.cartService.addProduct(Number(req.body.productId))
+    this.handleAction(res, () => {
+      const productId = Number(req.body.productId)
+      this.cartService.addProduct(productId)
       res.cookie('flash', 'Produkten sparades!')
       res.redirect('/products')
-    } catch (err) {
-      res.status(404).send(err.message)
-    }
+    })
   }
 
   /**
@@ -57,25 +54,10 @@ export class CartController {
    * @param res
    */
   removeOneItemFromCart (req, res) {
-    try {
-      this.cartService.removeProduct(Number(req.body.productId))
+    this.handleAction(res, () => {
+      const productId = Number(req.body.productId)
+      this.cartService.removeProduct(productId)
       res.redirect('/cart')
-    } catch (err) {
-      res.status(404).send(err.message)
-    }
-  }
-
-  /**
-   *
-   * @param req
-   * @param res
-   */
-  applyDiscountCode (req, res) {
-    const success = this.cartService.applyDiscount(req.body.code)
-    res.render('cart/index', {
-      ...this.cartService.getSummaryOfCart(),
-      discountSuccess: success,
-      discountCode: req.body.code
     })
   }
 
@@ -84,27 +66,73 @@ export class CartController {
    * @param req
    * @param res
    */
-  checkout (req, res) {
-    console.log('Kund trycker på checkout!')
-
+  applyDiscountCode (req, res) {
     try {
-      const summary = this.cartService.checkout()
-      res.render('cart/index', {
-        ...summary,
-        discountSuccess: false,
-        discountCode: null,
-        success: 'Tack för ditt köp! ',
-        error: null
-      })
+      const code = req.body.code
+      const success = this.cartService.applyDiscount(code)
+      this.renderCart(res, { discountSuccess: success, discountCode: code })
     } catch (err) {
-      console.log('Fel vid checkout:', err.message)
-      res.render('cart/index', {
-        ...this.cartService.getSummaryOfCart(),
-        discountSuccess: false,
-        discountCode: null,
-        success: null,
-        error: err.message
-      })
+      this.renderError(res, err)
+    }
+  }
+
+  /**
+   *
+   * @param req
+   * @param res
+   */
+  checkout (req, res) {
+    this.handleAction(res, () => {
+      const summary = this.cartService.checkout()
+      this.renderCart(res, { ...summary, success: 'Tack för ditt köp!', error: null })
+    }, this.renderError.bind(this, res))
+  }
+
+  /**
+   *
+   * @param res
+   * @param extraData
+   */
+  renderCart (res, extraData = {}) {
+    const defaults = {
+      discountSuccess: false,
+      discountCode: null,
+      success: null,
+      error: null
+    }
+
+    res.render('cart/index', {
+      ...this.cartService.getSummaryOfCart(),
+      ...defaults,
+      ...extraData
+    })
+  }
+
+  /**
+   *
+   * @param res
+   * @param err
+   */
+  renderError (res, err) {
+    console.error(err)
+    this.renderCart(res, { discountSuccess: false, discountCode: null, success: null, error: err.message })
+  }
+
+  /**
+   *
+   * @param res
+   * @param action
+   * @param errorHandler
+   */
+  handleAction (res, action, errorHandler) {
+    try {
+      action()
+    } catch (err) {
+      if (errorHandler) {
+        errorHandler(err)
+      } else {
+        this.renderError(res, err)
+      }
     }
   }
 }
