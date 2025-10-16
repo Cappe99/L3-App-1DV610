@@ -24,4 +24,24 @@ export default class Validator {
       throw new Error('Inte tillräckligt med pengar i plånboken')
     }
   }
+
+  /**
+   *
+   * @param amount
+   */
+  validateTopUp (amount) {
+    amount = Number(amount)
+    if (amount <= 0) throw new Error('Ogiltigt belopp')
+  }
+
+  /**
+   *
+   * @param amount
+   */
+  validateDeduct (amount) {
+    const balance = Number(this.walletService.getWalletData().balance)
+    if (balance < amount) {
+      throw new Error('Otillräckligt saldo')
+    }
+  }
 }
