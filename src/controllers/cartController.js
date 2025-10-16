@@ -114,7 +114,6 @@ export class CartController {
    * @param err
    */
   renderError (res, err) {
-    console.error(err)
     this.renderCart(res, { discountSuccess: false, discountCode: null, success: null, error: err.message })
   }
 

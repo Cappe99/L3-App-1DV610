@@ -34,7 +34,7 @@ export class WalletService {
    */
   getWalletData () {
     const balance = Number(this.#walletRepository.getBalance())
-    console.log('getWalletData() balance:', balance)
+
     return {
       balance,
       transactions: this.#walletRepository.getTransactions()

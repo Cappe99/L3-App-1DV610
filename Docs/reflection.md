@@ -1,3 +1,5 @@
+Ska jag vara riktigt ärlig så tycker jag detta är skitsvårt, När jag ska bryta ut, göra funktioner mindre, tänka på errorhandeling, tänka på klasser hit och dit, så känns det som jag mer och mer gör det svårare att utveckla. Att hålla koll på allt, det känns som jag måste tänka på så sjukt mycket mer, och mer komlicerat för att följa clean codes exempler och regler. 
+
 ## Kapitel 2: Meaningful Names
 
 Jag tycker det är väldigt svårt att namnge allt som ska bli namngivet.

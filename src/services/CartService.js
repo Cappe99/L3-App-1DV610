@@ -1,4 +1,5 @@
 import { Cart } from 'l2-module-cart-and-discounts'
+import Validator from '../ErrorHandling/Validator.js'
 
 /**
  *
@@ -8,6 +9,7 @@ export class CartService {
   #discountManager
   #productRepository
   #walletService
+  #validator
   /**
    *
    * @param discountManager
@@ -16,6 +18,7 @@ export class CartService {
    */
   constructor (discountManager, productRepository, walletService = null) {
     this.#cart = new Cart()
+    this.#validator = new Validator(walletService)
     this.#discountManager = this.#cart.discountManager
     this.#productRepository = productRepository
     this.#walletService = walletService
@@ -75,9 +78,7 @@ export class CartService {
   checkout () {
     const finalAmount = Number(this.#cart.getFinalPrice()) || 0
 
-    if (this.#walletService && this.#walletService.getWalletData().balance < finalAmount) {
-      throw new Error('Inte tillräckligt med pengar i plånboken')
-    }
+    this.#validator.validateWalletBalance(finalAmount)
 
     if (this.#walletService) {
       this.#walletService.deduct(finalAmount)

@@ -3,7 +3,6 @@
  */
 export class WalletController {
   /**
-   *
    * @param walletService
    */
   constructor (walletService) {
@@ -14,48 +13,73 @@ export class WalletController {
    *
    * @param req
    * @param res
-   * @param next
    */
-  showWallet (req, res, next) {
-    try {
+  showWallet (req, res) {
+    this.handleAction(res, () => {
       const data = this.walletService.getWalletData()
-      res.render('wallet/index', {
-        title: 'Din plånbok',
-        wallet: data,
-        transactions: data.transactions,
-        success: null,
-        error: null
-      })
-    } catch (error) {
-      next(error)
-    }
+      this.renderWallet(res, { wallet: data, transactions: data.transactions })
+    })
   }
 
   /**
    *
    * @param req
    * @param res
-   * @param next
    */
   addFundsToWallet (req, res) {
-    try {
+    this.handleAction(res, () => {
       const amount = parseInt(req.body.amount, 10)
+
       this.walletService.topUp(amount)
+
       const data = this.walletService.getWalletData()
-      res.render('wallet/index', {
+      this.renderWallet(res, {
         wallet: data,
         transactions: data.transactions,
-        success: `Du har lagt till ${amount} kr!`,
-        error: null
+        success: `Du har lagt till ${amount} kr!`
       })
+    })
+  }
+
+  /**
+   *
+   * @param res
+   * @param extraData
+   */
+  renderWallet (res, extraData = {}) {
+    const defaults = {
+      wallet: { balance: 0, transactions: [] },
+      success: null,
+      error: null
+    }
+
+    res.render('wallet/index', { ...defaults, ...extraData })
+  }
+
+  /**
+   *
+   * @param res
+   * @param err
+   */
+  renderError (res, err) {
+    this.renderWallet(res, { error: err.message })
+  }
+
+  /**
+   *
+   * @param res
+   * @param action
+   * @param errorHandler
+   */
+  handleAction (res, action, errorHandler) {
+    try {
+      action()
     } catch (err) {
-      const data = this.walletService.getWalletData()
-      res.render('wallet/index', {
-        balance: data.balance,
-        transactions: data.transactions,
-        success: null,
-        error: err.message
-      })
+      if (errorHandler) {
+        errorHandler(err)
+      } else {
+        this.renderError(res, err)
+      }
     }
   }
 }
