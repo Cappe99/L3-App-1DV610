@@ -1,23 +1,14 @@
 import Validator from '../ErrorHandling/Validator.js'
-/**
- *
- */
+
 export class WalletService {
   #walletRepository
   #validator
-  /**
-   *
-   * @param walletRepository
-   */
+
   constructor (walletRepository) {
     this.#walletRepository = walletRepository
     this.#validator = new Validator(this)
   }
 
-  /**
-   *
-   * @param amount
-   */
   topUp (amount) {
     this.#validator.validateTopUp(amount)
 
@@ -33,9 +24,6 @@ export class WalletService {
     return this.getWalletData()
   }
 
-  /**
-   *
-   */
   getWalletData () {
     const balance = Number(this.#walletRepository.getBalance())
 
@@ -45,10 +33,6 @@ export class WalletService {
     }
   }
 
-  /**
-   *
-   * @param amount
-   */
   deduct (amount) {
     this.#validator.validateDeduct(amount)
 

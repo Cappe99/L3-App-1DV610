@@ -1,21 +1,13 @@
 import { Cart } from 'l2-module-cart-and-discounts'
 import Validator from '../ErrorHandling/Validator.js'
 
-/**
- *
- */
 export class CartService {
   #cart
   #discountManager
   #productRepository
   #walletService
   #validator
-  /**
-   *
-   * @param discountManager
-   * @param productRepository
-   * @param walletService
-   */
+
   constructor (discountManager, productRepository, walletService = null) {
     this.#cart = new Cart()
     this.#validator = new Validator(walletService)
@@ -28,9 +20,6 @@ export class CartService {
     this.#discountManager.buyXPayForY(3, 2)
   }
 
-  /**
-   *
-   */
   getSummaryOfCart () {
     return {
       items: this.#cart.items,
@@ -41,40 +30,22 @@ export class CartService {
     }
   }
 
-  /**
-   *
-   * @param productId
-   */
   addProduct (productId) {
     this.#cart.addProductToCart(this.#findProduct(productId))
   }
 
-  /**
-   *
-   * @param productId
-   */
   removeProduct (productId) {
     this.#cart.removeProductFromCart(this.#findProduct(productId), 1)
   }
 
-  /**
-   *
-   */
   clearCart () {
     this.#cart.clearCart()
   }
 
-  /**
-   *
-   * @param code
-   */
   applyDiscount (code) {
     return this.#discountManager.applyDiscountCode(code)
   }
 
-  /**
-   *
-   */
   checkout () {
     const finalAmount = Number(this.#cart.getFinalPrice()) || 0
 
@@ -88,10 +59,6 @@ export class CartService {
     return this.getSummaryOfCart()
   }
 
-  /**
-   *
-   * @param productId
-   */
   #findProduct (productId) {
     const product = this.#productRepository.findById(productId)
     if (!product) {

@@ -1,20 +1,9 @@
-/**
- *
- */
 export default class Validator {
-  /**
-   *
-   * @param walletService
-   */
+
   constructor (walletService) {
     this.walletService = walletService
   }
 
-  /**
-   *
-   * @param walletService
-   * @param finalAmount
-   */
   validateWalletBalance (finalAmount) {
     if (!this.walletService) return
 
@@ -25,19 +14,11 @@ export default class Validator {
     }
   }
 
-  /**
-   *
-   * @param amount
-   */
   validateTopUp (amount) {
     amount = Number(amount)
     if (amount <= 0) throw new Error('Ogiltigt belopp')
   }
 
-  /**
-   *
-   * @param amount
-   */
   validateDeduct (amount) {
     const balance = Number(this.walletService.getWalletData().balance)
     if (balance < amount) {

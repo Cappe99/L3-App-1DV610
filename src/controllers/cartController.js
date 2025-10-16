@@ -1,20 +1,10 @@
-/**
- *
- */
+
 export class CartController {
-  /**
-   *
-   * @param cartService
-   */
+
   constructor (cartService) {
     this.cartService = cartService
   }
 
-  /**
-   *
-   * @param req
-   * @param res
-   */
   showItemsInCart (req, res) {
     this.renderCart(res, {
       discountSuccess: false,
@@ -24,11 +14,6 @@ export class CartController {
     })
   }
 
-  /**
-   *
-   * @param req
-   * @param res
-   */
   addItemToCart (req, res) {
     this.handleAction(res, () => {
       const productId = Number(req.body.productId)
@@ -38,21 +23,11 @@ export class CartController {
     })
   }
 
-  /**
-   *
-   * @param req
-   * @param res
-   */
   removeItemsInCart (req, res) {
     this.cartService.clearCart()
     res.redirect('/cart')
   }
 
-  /**
-   *
-   * @param req
-   * @param res
-   */
   removeOneItemFromCart (req, res) {
     this.handleAction(res, () => {
       const productId = Number(req.body.productId)
@@ -61,11 +36,6 @@ export class CartController {
     })
   }
 
-  /**
-   *
-   * @param req
-   * @param res
-   */
   applyDiscountCode (req, res) {
     try {
       const code = req.body.code
@@ -76,11 +46,6 @@ export class CartController {
     }
   }
 
-  /**
-   *
-   * @param req
-   * @param res
-   */
   checkout (req, res) {
     this.handleAction(res, () => {
       const summary = this.cartService.checkout()
@@ -88,11 +53,6 @@ export class CartController {
     }, this.renderError.bind(this, res))
   }
 
-  /**
-   *
-   * @param res
-   * @param extraData
-   */
   renderCart (res, extraData = {}) {
     const defaults = {
       discountSuccess: false,
@@ -108,21 +68,10 @@ export class CartController {
     })
   }
 
-  /**
-   *
-   * @param res
-   * @param err
-   */
   renderError (res, err) {
     this.renderCart(res, { discountSuccess: false, discountCode: null, success: null, error: err.message })
   }
 
-  /**
-   *
-   * @param res
-   * @param action
-   * @param errorHandler
-   */
   handleAction (res, action, errorHandler) {
     try {
       action()
