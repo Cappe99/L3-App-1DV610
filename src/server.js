@@ -29,7 +29,6 @@ try {
 
   app.use(logger('dev'))
 
-  // View engine setup.
   app.set('view engine', 'ejs')
   app.set('views', join(directoryFullName, 'views'))
   app.set('layout', join(directoryFullName, 'views', 'layouts', 'default'))
@@ -44,7 +43,7 @@ try {
   app.use(express.static(join(directoryFullName, '..', 'public')))
 
   if (process.env.NODE_ENV === 'dev') {
-    app.set('trust proxy', 1) // trust first proxy
+    app.set('trust proxy', 1)
   }
 
   app.use(flashMiddleware)
@@ -57,13 +56,11 @@ try {
     next()
   })
 
-  // Register routes.
   app.use(baseURL, router)
 
   app.use((err, req, res, next) => {
     console.error(err)
 
-    // 404 Not Found.
     if (err.status === 404) {
       res
         .status(404)
@@ -71,7 +68,6 @@ try {
       return
     }
 
-    // 500 Internal Server Error (in production, all other errors send this response).
     if (process.env.NODE_ENV === 'dev') {
       res
         .status(500)

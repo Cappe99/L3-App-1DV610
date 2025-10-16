@@ -93,7 +93,9 @@ export class CartService {
    */
   #findProduct (productId) {
     const product = this.#productRepository.findById(productId)
-    if (!product) throw new Error('Produkt hittades inte')
+    if (!product) {
+      throw new Error('Produkt hittades inte')
+    }
     return product
   }
 }
