@@ -63,4 +63,61 @@ Jag använder även **Vertical Openness Between Concepts** för att lätt kunna 
 
 ## Kapitel 7: Error Handling
 
+Kapitlet handlar kort om att varje system kan kracha, det viktigaste är hur vi gör eller hanterar fel som kan uppstå i systemet. 
+
+**Use Exceptions Rather Than Return Codes** Tror och tycker jag har på det ställen som kan göra att koden kan kracha. Däremot försöker jag bryta ut dessa så en funktion gör en sak om man ska referera till kapitel 3s funktioner.
+
+**Provide Context With Exceptions** Denna tycker jag fick till ganska bra i mitt npm paket.
+
+![Errors](../public/images/Errors.PNG)
+
+Här ser man direkt vilken källa felet kommer ifrån. Samt att jag i dessa försöker skicka med så inforrmativa meddelanden jag kan. 
+
+**Dont Return Null** och **Dont pass Null** använder jag inte alls, detta togs upp i en slack tråd först innan jag hann att läsa detta kappitlet, så jag hade det hela tiden tanken i bakhuvudet. 
+
+
+## Kapitel 8: Boundaries
+
+För att kort förrklara detta kapitel så handlar det om när vi använder någon annans kod, typ open source eller om vi skulle jobba i ett team, eller ett npm paket som är fallet i detta projekt.
+
+**Using Third-Party Code**: Generella gränssnitt som Map är kraftfulla men kan lätt missbrukas och skapa täta beroenden i systemet. Det är därför bättre att kapsla in dem i egna klasser som endast exponerar de metoder som verkligen behövs. Exempelvis kapslar min CartService de interna delarna på ett tydligt sätt och exponerar endast den funktionalitet som är relevant för användaren.
+
+**Exploring and Learning Boundaries** Jag har aldrig gjort detta innan, men i och med att jag gjorde egena tester på min L2 modul (Och skrev den själv xD) så var det väldigt enkelt att impementera alla delar till min app. Även **Learning** var även det väldigt enkelt, något jag kommer att göra i framtiden när jag letar ramverk eller paket även **Learning Tests Are Better Than Free**. 
+
+![Tests](../public/images/UnitTests.png)
+
+
+## kapitel 9: Unit Tests
+
+I detta kapitlet ska jag vara ärlig och säga att jag inte följer många regler kopplat till min kod. **The Three Laws of TDD** här lyckas jag bara med den sista reglen. 
+
+**Keep tests Clean** Enligt boken är unit tests lika om inte viktigare är produktionskoden. Jag vet ärligt inte hur man ska skriva bra tester mer än det som stod i **Clean Tests**, därför kan jag inte riktigt avgöra om mina tester är godkända. Däremot tycker jag att jag delvid följer **Single Concept per Test** och **F.I.R.S.T**. 
+
+```js
+describe("validateTotalPrice", () => {
+  test("accepts valid total price", () => {
+    expect(() => validateTotalPrice(250)).not.toThrow()
+  })
+
+  test("throws error for negative total price", () => {
+    expect(() => validateTotalPrice(-1)).toThrow(DiscountError)
+  })
+})
+```
+
+Jag köper det han säger i kappitlet, men jag personligen tycker att det blir ett väldig hoppande fram och tillbaka i koden mellan tester och produkktionskod. Tycker han bryter mot sina egna regler här då han i tidigare kappitel tar upp **"How Do You Write Functions Like This?"** från kapitel 3, Där han bara spyr ut kod för att få det att funka. 
+
+
+## Kapitel 10: Classes
+
+Jag tycker detta kappitel var ganska "självklart" och något vi även pratar mycket om i kursen 1DV607, Så det var rätt naturligt när jag skapade mina klasser att det skulle följa tex **Class Organization**, **Encapsulation** och **Cohesion** även om jag inte alltid följer den sistnämda... Detta i sin tur gör att i just denna klass misslyckas jag även med **Classes Should be Small!**, inte för att det är mycket kod utan för klasser mäter man i storlek på dess ansvarsområden(Responsibilities) men även **The Single Responsibility Principle**. 
+
+![Cohesion](../public/images/Chesion.PNG)
+
+Den ska väl kanske göras om och följa **Maintaining Cohesion Results in Many Small Classes**. 
+
+Kort och gott måste man nästan följa alla regler känner jag nu, annars faller det som en domino...
+
+## Kapitel 11: Systems
+
 
