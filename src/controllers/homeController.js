@@ -1,6 +1,6 @@
 export class HomeController {
 
-  index (req, res, next) {
+  homePage (req, res, next) {
     res.render('home/index')
   }
 }
