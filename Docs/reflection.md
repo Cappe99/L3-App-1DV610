@@ -61,6 +61,24 @@ Jag använder även **Vertical Openness Between Concepts** för att lätt kunna 
 
 ## Kapitel 6: Objects and Data Structures
 
+En central regel är **Law of Demeter**, som säger att metoder ska prata med sina “nära vänner” och inte navigera djupt i andra objekts interna struktur. Långa kedjor av metodanrop **train wrecks** bryter ofta mot denna princip.
+Jag tycker att jag mer än oftast inte har det och följer reglerna, 
+men i renderCart() och renderWallet() sprider jag flera objekt samtidigt med ..., vilket blir lite av en “**train wreck**”:
+
+```js
+res.render('cart/index', {
+  ...this.cartService.getSummaryOfCart(),
+  ...defaults,
+  ...extraData
+})
+```
+
+Utöver detta försöker jag kapsla in data och beteende, Jag använder mig av privata fält med publika metoder vilket gör att jag allt som oftast följer **Data Abstraction**. 
+
+**Hiding Structure** tycker jag själv att jag fick till hyffsat bra i min L2 uppgift där jag hade ett tydligt interface, där själva logiken var gömd i en annan klass och funktioner.
+
+Jag tycker att detta kappitlet är lätt och logiskt att förstå men väldigt svårt att faktiskt genomföra.
+
 ## Kapitel 7: Error Handling
 
 Kapitlet handlar kort om att varje system kan kracha, det viktigaste är hur vi gör eller hanterar fel som kan uppstå i systemet. 
@@ -120,4 +138,12 @@ Kort och gott måste man nästan följa alla regler känner jag nu, annars falle
 
 ## Kapitel 11: Systems
 
+**How Would You Build a City?** Precis som städer gradvis växer och kräver tydliga ansvarsområden behöver även system samma struktur. En snickare ska vara specialist på just att snicka, inte att dra el eller försöka vara rörmockare, samma med system. Enligt mig har jag typ denna struktur i form av Controllers, services, repositories etc. Detta gör att man kan vidareutveckla **Scaling Up**. 
 
+![FileStructures](../public/images/Modules.PNG)
+
+**Separate Constructing a System from Using It** Väldigt bra liknelse från verkligheten, iallafall min kod har väldigt mycket kranar och byggställningar i uppstarten, mycket console.log och dålig kod, för att sedan ta bort lite i taget och bygga om. 
+
+**Test Drive the System Architecture** Jag strukturerade min kod i många olika moduler och klasser. Eftersom logiken i tex CartService inte är beroende av Express kan den testas isolerat. Jag försöker också hålla klasserna enkla (POJOs) för att de ska vara lättare att utöka och refaktorisera över tid.
+
+**Dependency Injection** är väl någonstans den del som är viktigast i detta kapitlet. Jag injicerar alla beroenden i konstruktorn, t.ex. CartService i CartController, vilket följer Inversion of Control. Det gör att klasserna inte själva ansvarar för att skapa sina beroenden, vilket följer Single Responsibility Principle.
