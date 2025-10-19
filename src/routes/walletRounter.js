@@ -1,5 +1,5 @@
 import express from 'express'
-import { WalletController } from '../controllers/WalletController.js'
+import { WalletController } from '../controllers/walletController.js'
 import { walletService } from '../services/walletSingleton.js'
 
 export const router = express.Router()

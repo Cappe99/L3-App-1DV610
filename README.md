@@ -23,3 +23,10 @@ If you whant to have a local copy of this project on your computer please follow
 Contributions are welcome!
 
 If you want to help improve this project, here’s how you can get started:
+
+[developer guide](https://github.com/Cappe99/L3-App-1DV610/blob/main/Docs/Contributing.md)
+
+Find bug or improvment? Write a issue at [Issues](https://github.com/Cappe99/L3-App-1DV610/issues)
+
+
+
