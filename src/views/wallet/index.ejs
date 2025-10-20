@@ -1,35 +1,51 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Min Plånbok</title>
 
-<% if (typeof success !== 'undefined' && success) { %>
-  <div class="wallet-success"><%= success %></div>
-<% } %>
+</head>
+<body>
+    <div class="container">
+        <h1>Min Plånbok</h1>
+        
+        <% if (typeof success !== 'undefined' && success) { %>
+          <div class="wallet-success"> <%= success %></div>
+        <% } %>
 
-<% if (typeof error !== 'undefined' && error) { %>
-  <div class="wallet-error"><%= error %></div>
-<% } %>
+        <% if (typeof error !== 'undefined' && error) { %>
+          <div class="wallet-error"> <%= error %></div>
+        <% } %>
 
-<p><strong>Saldo:</strong> <%= wallet.balance %> kr</p>
+        <div class="balance-display">
+            <strong>Ditt saldo</strong>
+            <div class="balance-amount"><%= wallet.balance %> kr</div>
+        </div>
 
-<h2>Ladda på pengar</h2>
-<form method="post" action="/wallet/topup">
-  <input type="number" name="amount" placeholder="Belopp i kr" required>
-  <button type="submit">Ladda på</button>
-</form>
+        <h2>Ladda på pengar</h2>
+        <form method="post" action="/wallet/topup">
+          <input type="number" name="amount" placeholder="Belopp i kr" required min="1">
+          <button type="submit">Ladda på</button>
+        </form>
 
-<h2>Transaktioner</h2>
-<% if (wallet.transactions.length === 0) { %>
-  <p>Inga transaktioner ännu.</p>
-<% } else { %>
-<ul>
-  <% transactions.forEach(t => { %>
-    <li>
-      <% if (t.type === 'topup') { %>
-        Påfyllt <%= t.amount %> kr
-      <% } else if (t.type === 'purchase') { %>
-        Köp på <%= t.amount %> kr
-      <% } else { %>
-        <%= t.type %>: <%= t.amount %> kr
-      <% } %>
-    </li>
-  <% }) %>
-</ul>
-<% } %>
+        <h2>Transaktioner</h2>
+        <% if (wallet.transactions.length === 0) { %>
+          <p class="no-transactions">Inga transaktioner ännu.</p>
+        <% } else { %>
+        <ul>
+          <% transactions.forEach(t => { %>
+            <li>
+              <% if (t.type === 'topup') { %>
+                 Påfyllt <%= t.amount %> kr
+              <% } else if (t.type === 'purchase') { %>
+                 Köp på <%= t.amount %> kr
+              <% } else { %>
+                 <%= t.type %>: <%= t.amount %> kr
+              <% } %>
+            </li>
+          <% }) %>
+        </ul>
+        <% } %>
+    </div>
+</body>
