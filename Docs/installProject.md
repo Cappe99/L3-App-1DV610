@@ -7,6 +7,7 @@ Follow these steps to get a local copy of the webshop up and running.
 Before you start, make sure you have the following installed:
 
 [Node](https://nodejs.org/en)
+
 [Git](https://git-scm.com/)
 
 You can check if they’re installed by running:
@@ -40,13 +41,22 @@ Run this command to install all the required npm packages:
 npm i 
 ```
 
-### Step 5: Start the Application
+## Step 5: Configuration
+
+Create a `.env` file in the root directory:
+```bash
+PORT=3000
+NODE_ENV=development
+BASE_URL='/'
+```
+
+### Step 6: Start the Application
 
 ```bash
 npm run dev
 ```
 
-### Step 6: Open the Webshop
+### Step 7: Open the Webshop
 
 In the terminal a message will apear:
 
