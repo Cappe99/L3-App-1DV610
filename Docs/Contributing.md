@@ -21,7 +21,7 @@ These part are imported directly from my own NPM package:
    - “Buy X, Pay for Y” rules
    - Discount codes
 
-See the full module structure here: [L2-Module on GitHub](https://github.com/Cappe99/L2-Module) 
+See the full module structure here: [L2-Module on GitHub](https://github.com/Cappe99/L2-Module/tree/improved) 
 
 ##  2. Wallet & Validation
 
